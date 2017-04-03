@@ -24,8 +24,9 @@ requirements:
     - pkg-config
 
 test:
-  requires:
-    - pkg-config
+# TODOCAT :: conda-build needs seperate test/requires_build and test/requires_host
+#  requires:
+#    - pkg-config
   files:
     - run_test.sh         # [osx]
   commands:
