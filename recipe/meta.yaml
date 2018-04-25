@@ -16,7 +16,7 @@ source:
 
 build:
   skip: True  # [win]
-  number: 3
+  number: 1
   run_exports:
     # pretty good compat within major version
     #  https://abi-laboratory.pro/tracker/timeline/ncurses/
@@ -32,6 +32,10 @@ test:
 # TODO :: conda-build needs seperate test/requires_build and test/requires_host
 #  requires:
 #    - pkg-config
+  downstreams:
+    - readline
+    - sqlite
+
   commands:
     # Test libraries
     {% set ncurses_libraries = [
@@ -98,10 +102,11 @@ test:
     {% endfor %}
 
     # Test ncurses library arguments.
-    - pkg-config ncurses --libs | grep "^-L${PREFIX}/lib .*-lncurses -ltinfo$"
-    - pkg-config tinfo --libs | grep "^-L${PREFIX}/lib .*-ltinfo$"
-    - pkg-config ncursesw --libs | grep "^-L${PREFIX}/lib .*-lncursesw -ltinfow$"
-    - pkg-config tinfow --libs | grep "^-L${PREFIX}/lib .*-ltinfow$"
+    #   disabled to allow cross-compiling to actually work
+    # - pkg-config ncurses --libs | grep "^-L${PREFIX}/lib .*-lncurses -ltinfo$"
+    # - pkg-config tinfo --libs | grep "^-L${PREFIX}/lib .*-ltinfo$"
+    # - pkg-config ncursesw --libs | grep "^-L${PREFIX}/lib .*-lncursesw -ltinfow$"
+    # - pkg-config tinfow --libs | grep "^-L${PREFIX}/lib .*-ltinfow$"
 
 about:
   home: http://www.gnu.org/software/ncurses/
