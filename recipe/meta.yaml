@@ -28,6 +28,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - pkg-config
+    - make
 
 test:
 # TODO :: conda-build needs seperate test/requires_build and test/requires_host
