@@ -13,7 +13,6 @@ source:
     - fix.patch
     # http://lists.gnu.org/archive/html/bug-ncurses/2015-01/msg00016.html
     - ncurses-5.9-gcc-5.patch
-    - cxx1z-remove-dynamic-exception-specifications.patch
     - clang.patch
 
 build:
