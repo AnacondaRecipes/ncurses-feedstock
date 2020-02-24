@@ -1,4 +1,4 @@
-{% set version = "6.1" %}
+{% set version = "6.2" %}
 
 package:
   name: ncurses
@@ -7,7 +7,7 @@ package:
 source:
   fn: ncurses-{{ version }}.tar.gz
   url: http://ftp.gnu.org/pub/gnu/ncurses/ncurses-{{ version }}.tar.gz
-  md5: 98c889aaf8d23910d2b92d65be2e737a
+  md5: e812da327b1c2214ac1aed440ea3ae8d
   patches:
     # http://lists.gnu.org/archive/html/bug-ncurses/2011-04/txtkWQqiQvcZe.txt
     - fix.patch
@@ -17,7 +17,7 @@ source:
 
 build:
   skip: True  # [win]
-  number: 1
+  number: 0
   run_exports:
     # pretty good compat within major version
     #  https://abi-laboratory.pro/tracker/timeline/ncurses/
