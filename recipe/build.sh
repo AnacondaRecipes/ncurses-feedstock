@@ -64,7 +64,7 @@ pushd "${PREFIX}"/lib
     popd
   done
   pushd pkgconfig
-    for _PC in form formw menu menuw panel panelw ncurses ncursesw ncurses++ ncurses++w tinfo tinfow; do
+    for _PC in form formw menu menuw panel panelw ncurses ncursesw tinfo tinfow; do
       sed -i.bak 's:include/ncursesw$:include/ncurses:g' ${_PC}.pc
       [[ -f ${_PC}.pc.bak ]] && rm ${_PC}.pc.bak
     done
