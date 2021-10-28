@@ -46,7 +46,7 @@ else
 fi
 
 # Make symlinks from the wide to the non-wide libraries.
-pushd "${PREFIX}"/lib
+pushd "${BUILD_PREFIX}"/lib
   for _LIB in ncurses ncurses++ form panel menu tinfo; do
     for WIDE_LIBFILE in $(ls lib${_LIB}w${_SOEXT}*); do
       NONWIDE_LIBFILE=${WIDE_LIBFILE/${_LIB}w/${_LIB}}
@@ -83,7 +83,7 @@ done
 
 # Ensure that the code at the top that strips -L and -Wl,-rpath from LDFLAGS did its job
 # and we have ended up with a working ncursesw.pc file (i.e. one that contains -ltinfow)
-if ! cat "${PREFIX}"/lib/pkgconfig/ncursesw.pc | grep "Libs:" | grep "\-ltinfow"; then
+if ! cat "${BUILD_PREFIX}"/lib/pkgconfig/ncursesw.pc | grep "Libs:" | grep "\-ltinfow"; then
   echo "ERROR: ncurses gen-pkgconfig script has created a broken ncursesw.pc"
   echo "       It does not contain '-ltinfow' in the 'Libs:' line"
   exit 1
