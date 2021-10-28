@@ -1,4 +1,4 @@
-{% set version = "6.2" %}
+{% set version = "6.3" %}
 
 package:
   name: ncurses
@@ -6,13 +6,13 @@ package:
 
 source:
   fn: ncurses-{{ version }}.tar.gz
-  url: http://ftp.gnu.org/pub/gnu/ncurses/ncurses-{{ version }}.tar.gz
-  md5: e812da327b1c2214ac1aed440ea3ae8d
+  url: https://github.com/mirror/ncurses/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: dbab3d9f3b59fc5c3887ce72bafd83b9245edc198c53df8014ca0afaa16c5cd5
   patches:
     # http://lists.gnu.org/archive/html/bug-ncurses/2011-04/txtkWQqiQvcZe.txt
     - fix.patch
     # http://lists.gnu.org/archive/html/bug-ncurses/2015-01/msg00016.html
-    - ncurses-5.9-gcc-5.patch
+    #- ncurses-5.9-gcc-5.patch
     - clang.patch
 
 build:
@@ -26,8 +26,10 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
     - pkg-config
     - make
+    - patch
 
 test:
 # TODO :: conda-build needs seperate test/requires_build and test/requires_host
