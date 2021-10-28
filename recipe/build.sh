@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -x -u
 
 # ncurses (gen-pkgconfig.in) adds -ltinfo to ncurses.pc if any of the following conditions is true:
 # 1. No `*-Wl,-rpath,*` is found in EXTRA_LDFLAGS
@@ -25,8 +25,6 @@ fi
 
 ./configure \
   --prefix="${PREFIX}" \
-  --build=${BUILD} \
-  --host=${HOST} \
   --without-debug \
   --without-ada \
   --without-manpages \
@@ -34,7 +32,7 @@ fi
   --disable-overwrite \
   --enable-symlinks \
   --enable-termcap \
-  --with-pkg-config-libdir="${PREFIX}"/lib/pkgconfig \
+  --with-pkg-config-libdir="${BUILD_PREFIX}"/lib/pkgconfig \
   --enable-pc-files \
   --with-termlib \
   --enable-widec
