@@ -6,14 +6,8 @@ package:
 
 source:
   fn: ncurses-{{ version }}.tar.gz
-  url: https://github.com/mirror/ncurses/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: dbab3d9f3b59fc5c3887ce72bafd83b9245edc198c53df8014ca0afaa16c5cd5
-  patches:
-    # http://lists.gnu.org/archive/html/bug-ncurses/2011-04/txtkWQqiQvcZe.txt
-    - fix.patch
-    # http://lists.gnu.org/archive/html/bug-ncurses/2015-01/msg00016.html
-    #- ncurses-5.9-gcc-5.patch
-    - clang.patch
+  url: https://invisible-mirror.net/archives/ncurses/ncurses-{{ version }}.tar.gz
+  sha256: 97fc51ac2b085d4cde31ef4d2c3122c21abc217e9090a43a30fc5ec21684e059
 
 build:
   skip: True  # [win]
@@ -26,10 +20,8 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
     - pkg-config
     - make
-    - patch
 
 test:
 # TODO :: conda-build needs seperate test/requires_build and test/requires_host
