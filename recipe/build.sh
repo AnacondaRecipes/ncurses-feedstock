@@ -66,4 +66,3 @@ for HEADER in $(ls $HEADERS_DIR_W); do
   ln -s "${PREFIX}/include/${HEADER}" "${HEADERS_DIR_W}/${HEADER}"
   ln -s "${PREFIX}/include/${HEADER}" "${HEADERS_DIR}/${HEADER}"
 done
-
