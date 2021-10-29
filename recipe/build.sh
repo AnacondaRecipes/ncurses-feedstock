@@ -1,31 +1,19 @@
 #!/bin/bash
 
+# Get an updated config.sub and config.guess
+# Running autoreconf messes up the build so just copy these two files
+cp $BUILD_PREFIX/share/libtool/build-aux/config.* .
+
 set -x
 
-# ncurses (gen-pkgconfig.in) adds -ltinfo to ncurses.pc if any of the following conditions is true:
-# 1. No `*-Wl,-rpath,*` is found in EXTRA_LDFLAGS
-# 2. Any `*--as-needed*` is found in EXTRA_LDFLAGS
-# The build system takes care that any `-Wl,-rpath,` in LDFLAGS gets copied into EXTRA_LDFLAGS
-# (and also that any -L${PREFIX}/lib gets translated to -Wl,-rpath,${PREFIX}/lib)
-# the same is not true of -Wl,--as-needed (which is referenced only in gen-pkgconfig.in).
-# One option to fix this is to pass our LDFLAGS as EXTRA_LDFLAGS however this ends up copying across
-# all of our linker flags into the .pc file which means they are forced upon all pkg-config based
-# consumers of ncurses and that is a very bad thing indeed. If we wanted to do that we would:
-# export EXTRA_LDFLAGS=${LDFLAGS}
-# export LDFLAGS=
-# .. but instead it is better to strip off all '-Wl,-rpath,*' and '-L${PREFIX}' from LDFLAGS.
-re='^(.*)(-Wl,-rpath,[^ ]*)(.*)$'
-if [[ ${LDFLAGS} =~ $re ]]; then
-  export LDFLAGS="${BASH_REMATCH[1]}${BASH_REMATCH[3]}"
-fi
-re='^(.*)(-L[^ ]*)(.*)$'
-if [[ ${LDFLAGS} =~ $re ]]; then
-  export LDFLAGS="${BASH_REMATCH[1]}${BASH_REMATCH[3]}"
+if [[ $target_platform =~ osx-.* ]]; then
+    export cf_cv_mixedcase=no
 fi
 
+export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig:$PREFIX/share/pkgconfig
+
 ./configure \
-  --prefix="${PREFIX}" \
-  --build=${BUILD} \
+  --prefix=$PREFIX \
   --host=${HOST} \
   --without-debug \
   --without-ada \
@@ -34,10 +22,17 @@ fi
   --disable-overwrite \
   --enable-symlinks \
   --enable-termcap \
-  --with-pkg-config-libdir="${PREFIX}"/lib/pkgconfig \
+  --with-pkg-config-libdir=$PREFIX/lib/pkgconfig \
   --enable-pc-files \
   --with-termlib \
   --enable-widec
+
+if [[ "$target_platform" == osx* ]]; then
+  # When linking libncurses*.dylib, reexport libtinfo[w] so that later
+  # client code linking against just -lncurses[w] also gets -ltinfo[w].
+  sed -i.orig '/^SHLIB_LIST/s/-ltinfo/-Wl,-reexport&/' ncurses/Makefile
+fi
+
 make -j${CPU_COUNT} ${VERBOSE_AT}
 make install
 
@@ -57,18 +52,7 @@ pushd "${PREFIX}"/lib
     if [[ -f lib${_LIB}w.a ]]; then
       ln -s lib${_LIB}w.a lib${_LIB}.a
     fi
-    pushd pkgconfig
-      if [[ -f ${_LIB}w.pc ]]; then
-        ln -s ${_LIB}w.pc ${_LIB}.pc
-      fi
-    popd
   done
-  pushd pkgconfig
-    for _PC in form formw menu menuw panel panelw ncurses ncursesw ncurses++ ncurses++w tinfo tinfow; do
-      sed -i.bak 's:include/ncursesw$:include/ncurses:g' ${_PC}.pc
-      [[ -f ${_PC}.pc.bak ]] && rm ${_PC}.pc.bak
-    done
-  popd
 popd
 
 # Provide headers in `$PREFIX/include` and
@@ -83,10 +67,3 @@ for HEADER in $(ls $HEADERS_DIR_W); do
   ln -s "${PREFIX}/include/${HEADER}" "${HEADERS_DIR}/${HEADER}"
 done
 
-# Ensure that the code at the top that strips -L and -Wl,-rpath from LDFLAGS did its job
-# and we have ended up with a working ncursesw.pc file (i.e. one that contains -ltinfow)
-if ! cat "${PREFIX}"/lib/pkgconfig/ncursesw.pc | grep "Libs:" | grep "\-ltinfow"; then
-  echo "ERROR: ncurses gen-pkgconfig script has created a broken ncursesw.pc"
-  echo "       It does not contain '-ltinfow' in the 'Libs:' line"
-  exit 1
-fi
