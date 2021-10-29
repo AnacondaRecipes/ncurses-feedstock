@@ -23,6 +23,8 @@ if [[ ${LDFLAGS} =~ $re ]]; then
   export LDFLAGS="${BASH_REMATCH[1]}${BASH_REMATCH[3]}"
 fi
 
+export PKG_CONFIG_LIBDIR="${BUILD_PREFIX}"/lib/pkgconfig
+
 ./configure \
   --prefix="${PREFIX}" \
   --without-debug \
