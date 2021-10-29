@@ -8,6 +8,9 @@ source:
   fn: ncurses-{{ version }}.tar.gz
   url: https://invisible-mirror.net/archives/ncurses/ncurses-{{ version }}.tar.gz
   sha256: 97fc51ac2b085d4cde31ef4d2c3122c21abc217e9090a43a30fc5ec21684e059
+  patches:
+    - fix.patch
+    - clang.patch
 
 build:
   skip: True  # [win]
@@ -22,6 +25,7 @@ requirements:
     - {{ compiler('c') }}
     - pkg-config
     - make
+    - patch
 
 test:
 # TODO :: conda-build needs seperate test/requires_build and test/requires_host
