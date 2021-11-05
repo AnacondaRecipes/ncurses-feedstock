@@ -10,7 +10,7 @@ if [[ $target_platform =~ osx-.* ]]; then
     export cf_cv_mixedcase=no
 fi
 
-export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig:$PREFIX/share/pkgconfig
+export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig
 
 ./configure \
   --prefix=$PREFIX \
