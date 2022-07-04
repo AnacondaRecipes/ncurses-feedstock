@@ -10,6 +10,10 @@ if [[ $target_platform =~ osx-.* ]]; then
     export cf_cv_mixedcase=no
 fi
 
+if [ ! -f "${BUILD_PREFIX}/bin/strip" ]; then
+    ln -sf "${HOST}-strip" "${BUILD_PREFIX}/bin/strip"
+fi
+
 export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig
 
 ./configure \
