@@ -12,10 +12,11 @@ source:
     # http://lists.gnu.org/archive/html/bug-ncurses/2011-04/txtkWQqiQvcZe.txt
     - fix.patch
     - clang.patch
+    - CVE-2022-29458.patch
 
 build:
   skip: True  # [win]
-  number: 2
+  number: 3
   run_exports:
     # pretty good compat within major version
     #  https://abi-laboratory.pro/tracker/timeline/ncurses/
