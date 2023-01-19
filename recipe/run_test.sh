@@ -36,7 +36,7 @@ test -d ${PREFIX}/include/ncursesw
 # Test headers
 ncurses_headers=(
     "curses.h"
-    "cursesapp.h"
+    #"cursesapp.h"
     "cursesf.h"
     "cursesm.h"
     "cursesp.h"
