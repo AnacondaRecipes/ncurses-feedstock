@@ -11,8 +11,7 @@ source:
   patches:
     # http://lists.gnu.org/archive/html/bug-ncurses/2011-04/txtkWQqiQvcZe.txt
     - fix.patch
-    - clang.patch
-    #- CVE-2022-29458.patch
+    - clang.patch # [osx]
 
 build:
   number: 0
