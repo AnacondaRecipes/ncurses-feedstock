@@ -52,7 +52,6 @@ echo "Making symlinks from the wide to the non-wide libraries."
 pushd "${PREFIX}"/lib
   for _LIB in ncurses ncurses++ form panel menu tinfo; do
     for WIDE_LIBFILE in $(ls lib${_LIB}w*${_SOEXT}*); do
-      ls -l ${WIDE_LIBFILE}
       NONWIDE_LIBFILE=${WIDE_LIBFILE/${_LIB}w/${_LIB}}
       ln -s ${WIDE_LIBFILE} ${NONWIDE_LIBFILE}
     done
