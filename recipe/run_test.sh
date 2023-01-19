@@ -74,10 +74,15 @@ ncurses_pc_files=(
 )
 
 for each_ncurses_pc_file in "${ncurses_pc_files[@]}"; do
-    test -f ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file".pc
-    cat ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file".pc
-    test -f ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file"w.pc
-    cat ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file"w.pc
+    if [ `uname` == Linux ]; then
+        test -f ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file".pc
+        cat ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file".pc
+        test -f ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file"w.pc
+        cat ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file"w.pc
+    elif [ `uname` == Darwin ]; then
+        test -f ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file"w.pc
+        cat ${PREFIX}/lib/pkgconfig/"$each_ncurses_pc_file"w.pc
+    fi
 done
 
 # Test ncurses library arguments.
