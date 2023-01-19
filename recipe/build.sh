@@ -23,10 +23,11 @@ export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig
   --without-ada \
   --without-manpages \
   --with-shared \
+  --with-pkg-config \
+  --with-pkg-config-libdir=$PREFIX/lib/pkgconfig \
   --disable-overwrite \
   --enable-symlinks \
   --enable-termcap \
-  --with-pkg-config-libdir=$PREFIX/lib/pkgconfig \
   --enable-pc-files \
   --with-termlib \
   --enable-widec
@@ -47,9 +48,11 @@ else
 fi
 
 # Make symlinks from the wide to the non-wide libraries.
+echo "Making symlinks from the wide to the non-wide libraries."
 pushd "${PREFIX}"/lib
   for _LIB in ncurses ncurses++ form panel menu tinfo; do
     for WIDE_LIBFILE in $(ls lib${_LIB}w*${_SOEXT}*); do
+      ls -l ${WIDE_LIBFILE}
       NONWIDE_LIBFILE=${WIDE_LIBFILE/${_LIB}w/${_LIB}}
       ln -s ${WIDE_LIBFILE} ${NONWIDE_LIBFILE}
     done
