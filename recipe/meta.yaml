@@ -61,9 +61,12 @@ about:
     enhancements over BSD curses. SVr4 curses is better
     known today as X/Open Curses
   doc_url: https://invisible-island.net/ncurses/NCURSES-Programming-HOWTO.html
-  dev_url: http://ncurses.scripts.mit.edu/?p=ncurses.git
+  dev_url: https://ncurses.scripts.mit.edu/?p=ncurses.git
 
 extra:
   recipe-maintainers:
     - jakirkham
     - jjhelmus
+  skip-lints:
+    - build_tools_must_be_in_build
+    - host_section_needs_exact_pinnings
