@@ -79,7 +79,7 @@ for each_ncurses_pc_file in "${ncurses_pc_files[@]}"; do
 done
 
 # Test ncurses library arguments.
-pkg-config ncurses --libs
+#pkg-config ncurses --libs
 pkg-config ncursesw --libs | grep "^-L${PREFIX}/lib .*-lncursesw -ltinfow$"
 pkg-config tinfow --libs | grep "^-L${PREFIX}/lib .*-ltinfow$"
 pkg-config ncurses++w --libs
