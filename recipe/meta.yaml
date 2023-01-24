@@ -41,8 +41,8 @@ requirements:
 
 test:
 # TODO :: conda-build needs seperate test/requires_build and test/requires_host
-  requires:
-    - pkg-config
+  #requires:
+  #  - pkg-config
 
 about:
   home: https://invisible-island.net/ncurses/
