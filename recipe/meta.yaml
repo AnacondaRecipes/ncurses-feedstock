@@ -42,6 +42,7 @@ requirements:
 test:
 # TODO :: conda-build needs seperate test/requires_build and test/requires_host
   requires:
+    # Tests failed on linux-aarch64, osx-64, and osx-arm64 because pkg-config not found 
     - pkg-config  # [osx or (linux and aarch64)]
 
 about:
