@@ -23,7 +23,6 @@ export PKG_CONFIG_LIBDIR=$PREFIX/lib/pkgconfig
   --without-ada \
   --without-manpages \
   --with-shared \
-  --with-cxx-shared \
   --with-pkg-config \
   --with-pkg-config-libdir=$PREFIX/lib/pkgconfig \
   --disable-overwrite \
