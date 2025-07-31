@@ -17,6 +17,9 @@ ncurses_libraries=(
     "libpanel"
 )
 
+# Test C++ bindings separately as they don't have dynamic lib variants
+test -f ${PREFIX}/lib/libncurses++.a
+
 for each_ncurses_library in "${ncurses_libraries[@]}"; do
     test -f ${PREFIX}/lib/"$each_ncurses_library".a
     test -f ${PREFIX}/lib/"$each_ncurses_library"w.a
@@ -46,14 +49,12 @@ ncurses_headers=(
     "etip.h"
     "form.h"
     "menu.h"
-    "nc_tparm.h"
     "ncurses.h"
     "ncurses_dll.h"
     "panel.h"
     "term.h"
     "term_entry.h"
     "termcap.h"
-    "tic.h"
     "unctrl.h"
 )
 
@@ -61,6 +62,25 @@ for each_ncurses_header in "${ncurses_headers[@]}"; do
     test -L ${PREFIX}/include/ncurses/"$each_ncurses_header"
     test -L ${PREFIX}/include/ncursesw/"$each_ncurses_header"
     test -f ${PREFIX}/include/"$each_ncurses_header"
+done
+
+# Test binaries
+ncurses_bins=(
+    "captoinfo"
+    "clear"
+    "infocmp"
+    "infotocap"
+    "ncursesw6-config"
+    "reset"
+    "tabs"
+    "tic"
+    "toe"
+    "tput"
+    "tset"
+)
+
+for each_ncurses_binary in "${ncurses_bins[@]}"; do
+    test -f ${PREFIX}/bin/"$each_ncurses_binary"
 done
 
 # Test pkg-config files

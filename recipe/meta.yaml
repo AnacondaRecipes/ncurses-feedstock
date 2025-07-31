@@ -1,4 +1,4 @@
-{% set version = "6.4" %}
+{% set version = "6.5" %}
 
 package:
   name: ncurses
@@ -7,7 +7,7 @@ package:
 source:
   fn: ncurses-{{ version }}.tar.gz
   url: https://invisible-mirror.net/archives/ncurses/ncurses-{{ version }}.tar.gz
-  sha256: 6931283d9ac87c5073f30b6290c4c75f21632bb4fc3603ac8100812bed248159
+  sha256: 136d91bc269a9a5785e5f9e980bc76ab57428f604ce3e5a5a90cebc767971cc6
   patches:
     # http://lists.gnu.org/archive/html/bug-ncurses/2011-04/txtkWQqiQvcZe.txt
     - fix.patch
@@ -28,6 +28,7 @@ build:
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - libtool
