@@ -1,17 +1,17 @@
-{% set version = "6.5" %}
+{% set version = "6.6" %}
+{% set name = "ncurses" %}
 
 package:
-  name: ncurses
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: ncurses-{{ version }}.tar.gz
-  url: https://invisible-mirror.net/archives/ncurses/ncurses-{{ version }}.tar.gz
-  sha256: 136d91bc269a9a5785e5f9e980bc76ab57428f604ce3e5a5a90cebc767971cc6
-  patches:
-    # http://lists.gnu.org/archive/html/bug-ncurses/2011-04/txtkWQqiQvcZe.txt
-    - fix.patch
-    - clang.patch # [osx]
+  - url: https://invisible-mirror.net/archives/{{ name }}/{{ name }}-{{ version }}.tar.gz
+    sha256: 355b4cbbed880b0381a04c46617b7656e362585d52e9cf84a67e2009b749ff11
+    patches:
+      # http://lists.gnu.org/archive/html/bug-ncurses/2011-04/txtkWQqiQvcZe.txt
+      - fix.patch
+      - clang.patch # [osx]
 
 build:
   number: 0
@@ -33,7 +33,6 @@ requirements:
     - {{ compiler('cxx') }}
     - libtool
     - make
-    - patch
   host:
     - pkg-config
     # Need a separate host section so that ncurses doesn't remove -L$PREFIX/lib
